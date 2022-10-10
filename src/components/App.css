@@ -1,0 +1,24 @@
+.container {
+  display: flex;
+  background-color: #888;
+  justify-content: space-around;
+}
+
+.quadrado {
+  height: 80px;
+  width: 80px;
+}
+
+.red {
+  display: flex;
+  background-color: red;
+  justify-content: center; 
+}
+
+.blue {
+  background-color: blue;
+}
+
+.green {
+  background-color: green;
+}
