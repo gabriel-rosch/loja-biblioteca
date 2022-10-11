@@ -1,52 +1,125 @@
 import "./Main.css";
 
-import { Button, InputGroup, Form, Table } from "react-bootstrap";
+import { Button, InputGroup, Form, Table, Dropdown } from "react-bootstrap";
 import { useState } from "react";
 
 function Main() {
-  const [livros, setLivros] = useState([
-    {
-      codigo: 1,
-      titulo: "React para leigos",
-      autor: "Andresa",
-    },
-    {
-      codigo: 2,
-      titulo: "React para leigos",
-      autor: "Andresa",
-    },
-  ]);
+  const [livros, setLivros] = useState([]);
+
+  const [codigo, setCodigo] = useState("");
+  const [titulo, setTitulo] = useState("");
+  const [autor, setAutor] = useState("");
+
+  const [codigoPesquisa, setCodigoPesquisa] = useState("");
+  const [autorPesquisa, setAutorPesquisa] = useState("");
+
+  const [inCadastro, setInCadastro] = useState(true);
 
   function cadastrar() {
-    alert("OK")
+    const livro = {
+      codigo,
+      titulo,
+      autor,
+    };
+
+    setLivros([livro, ...livros]);
+    limparFormulario();
   }
+
+  function limparFormulario() {
+    setCodigo("");
+    setAutor("");
+    setTitulo("");
+  }
+
+  function pesquisar() {}
 
   return (
     <>
-      <div className="container mb-5 mt-5">
-        <InputGroup className="mb-3">
-          <Form.Control
-            placeholder="Código"
-            aria-label="Código"
-            aria-describedby="basic-addon1"
-          />
-        </InputGroup>
-        <InputGroup className="mb-3">
-          <Form.Control
-            placeholder="Titulo"
-            aria-label="Titulo"
-            aria-describedby="basic-addon1"
-          />
-        </InputGroup>
-        <InputGroup className="mb-3">
-          <Form.Control
-            placeholder="Autor"
-            aria-label="Autor"
-            aria-describedby="basic-addon1"
-          />
-        </InputGroup>
-        <Button onClick={cadastrar}>Cadastrar</Button>
+      <div className="container mb-1 mt-1">
+        <Dropdown>
+          <Dropdown.Toggle variant="success" id="dropdown-basic">
+            Opções
+          </Dropdown.Toggle>
+
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={()=>{setInCadastro(true)}} href="#/action-1">Cadastrar</Dropdown.Item>
+            <Dropdown.Item onClick={()=>{setInCadastro(false)}} href="#/action-2">Pesquisar</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
       </div>
+
+      {
+        inCadastro && (
+          <div className="container mb-5 mt-3">
+          <InputGroup className="mb-3">
+            <Form.Control
+              onChange={(e) => {
+                setCodigo(e.target.value);
+              }}
+              value={codigo}
+              placeholder="Código"
+              aria-label="Código"
+              aria-describedby="basic-addon1"
+            />
+          </InputGroup>
+          <InputGroup className="mb-3">
+            <Form.Control
+              onChange={(e) => {
+                setTitulo(e.target.value);
+              }}
+              value={titulo}
+              placeholder="Titulo"
+              aria-label="Titulo"
+              aria-describedby="basic-addon1"
+            />
+          </InputGroup>
+          <InputGroup className="mb-5">
+            <Form.Control
+              onChange={(e) => {
+                setAutor(e.target.value);
+              }}
+              value={autor}
+              placeholder="Autor"
+              aria-label="Autor"
+              aria-describedby="basic-addon1"
+            />
+          </InputGroup>
+          <Button onClick={cadastrar}>Cadastrar</Button>
+        </div>
+        )
+      }
+     
+      {
+        !inCadastro && (
+          <div className="container mb-5 mt-3">
+          <InputGroup className="mb-3">
+            <Form.Control
+              onChange={(e) => {
+                setCodigoPesquisa(e.target.value);
+              }}
+              value={codigoPesquisa}
+              placeholder="Código"
+              aria-label="Código"
+              aria-describedby="basic-addon1"
+            />
+          </InputGroup>
+          <InputGroup className="mb-5">
+            <Form.Control
+              onChange={(e) => {
+                setAutorPesquisa(e.target.value);
+              }}
+              value={autorPesquisa}
+              placeholder="Autor"
+              aria-label="Autor"
+              aria-describedby="basic-addon1"
+            />
+          </InputGroup>
+          <Button onClick={pesquisar}>Pesquisar</Button>
+        </div>
+        ) 
+      }
+
       <div className="container">
         <Table striped bordered hover>
           <thead>
